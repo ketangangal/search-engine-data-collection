@@ -5,3 +5,4 @@ pyyaml==6.0
 from-root==1.0.2
 uvicorn[standard]
 python-multipart==0.0.5
+requests==2.28.1
