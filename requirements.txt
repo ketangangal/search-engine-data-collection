@@ -1,0 +1,7 @@
+boto3==1.24.65
+mysql-connector-python==8.0.30
+fastapi==0.82.0
+pyyaml==6.0
+from-root==1.0.2
+uvicorn[standard]
+python-multipart==0.0.5
