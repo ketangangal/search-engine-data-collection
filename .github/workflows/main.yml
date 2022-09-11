@@ -73,7 +73,7 @@ jobs:
   pull-and-start-app-on-prod:
     needs: build-and-push-ecr-image
     name: Pull Image from ECR and Start App on EC2
-    runs-on: [self-hosted, Linux, ARM64, prod, test]
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
