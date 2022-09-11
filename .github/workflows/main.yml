@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  AWS_REGION: MY_AWS_REGION
+  AWS_REGION: ap-south-1
 
 jobs:
   integration:
