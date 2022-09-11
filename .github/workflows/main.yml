@@ -76,8 +76,7 @@ jobs:
         run: sudo docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:production
 
       - name: Run Docker Image to serve users
-        run: |
-        sudo docker run -p "8080:8080" ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:production -d
+        run: sudo docker run -p "8080:8080" ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:production -d
 
       - name: Docker System Prune to Remove Old Images
         run: sudo docker system prune -f
