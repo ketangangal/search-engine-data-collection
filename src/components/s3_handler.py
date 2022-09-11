@@ -1,9 +1,12 @@
-from src.components.utils import image_unique_name
-from src.Exception.exception import CustomException
+import os
+import sys
 from typing import Dict
-import boto3.session
+
 import boto3
-import os, sys
+import boto3.session
+
+from src.Exception.exception import CustomException
+from src.components.utils import image_unique_name
 
 
 class S3Connection:

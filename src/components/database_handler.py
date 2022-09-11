@@ -1,4 +1,4 @@
-from queries import CREATE_TABLE, CREATE_DATABASE
+from src.components.queries import CREATE_TABLE, CREATE_DATABASE
 from src.Exception.exception import CustomException
 import mysql.connector
 import os
