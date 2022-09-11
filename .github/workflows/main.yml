@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   AWS_REGION: ap-south-1
 
@@ -83,4 +87,3 @@ jobs:
 
       - name: Docker System Prune to Remove Old Images
         run: sudo docker system prune -f
-
