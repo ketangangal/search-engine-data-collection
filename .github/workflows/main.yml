@@ -57,20 +57,8 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build \
-          --build-arg AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \ 
-          --build-arg AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-          --build-arg AWS_BUCKET_HEADER_URL=${{ secrets.AWS_BUCKET_HEADER_URL }} \
-          --build-arg AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }} \
-          --build-arg AWS_DATABASE_HOST=${{ secrets.AWS_DATABASE_HOST }} \
-          --build-arg AWS_DATABASE_USERNAME=${{ secrets.AWS_DATABASE_USERNAME }} \
-          --build-arg AWS_DATABASE_PASSWORD=${{ secrets.AWS_DATABASE_PASSWORD }} \
-          --build-arg AWS_DATABASE_NAME=${{ secrets.AWS_DATABASE_NAME }} \
-          --build-arg AWS_DATABASE_TABLE=${{ secrets.AWS_DATABASE_TABLE }} \
-          -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
   pull-and-start-app-on-prod:
@@ -88,7 +76,7 @@ jobs:
         run: sudo docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:production
 
       - name: Run Docker Image to serve users
-        run: sudo docker run -d -p "8080:8080" ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:production
+        run: sudo docker run -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -e AWS_BUCKET_HEADER_URL=${{ secrets.AWS_BUCKET_HEADER_URL }} -e AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }} -e AWS_DATABASE_HOST=${{ secrets.AWS_DATABASE_HOST }} -e AWS_DATABASE_USERNAME=${{ secrets.AWS_DATABASE_USERNAME }} -e AWS_DATABASE_PASSWORD=${{ secrets.AWS_DATABASE_PASSWORD }} -e AWS_DATABASE_NAME=${{ secrets.AWS_DATABASE_NAME }} -e AWS_DATABASE_TABLE=${{ secrets.AWS_DATABASE_TABLE }} -p 8080:8080 ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:production
 
       - name: Docker System Prune to Remove Old Images
         run: sudo docker system prune -f
