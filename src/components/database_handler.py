@@ -1,8 +1,10 @@
-from src.components.queries import CREATE_TABLE, CREATE_DATABASE
-from src.Exception.exception import CustomException
-import mysql.connector
 import os
 import sys
+
+import mysql.connector
+
+from src.components.queries import CREATE_DATABASE, CREATE_TABLE
+from src.Exception.exception import CustomException
 
 
 class MysqlConnection:
@@ -20,9 +22,9 @@ class MysqlConnection:
         """
         try:
             self.mydb = mysql.connector.connect(
-                host=os.environ['AWS_DATABASE_HOST'],
-                user=os.environ['AWS_DATABASE_USERNAME'],
-                password=os.environ['AWS_DATABASE_PASSWORD']
+                host=os.environ["AWS_DATABASE_HOST"],
+                user=os.environ["AWS_DATABASE_USERNAME"],
+                password=os.environ["AWS_DATABASE_PASSWORD"],
             )
             return True
         except Exception as e:

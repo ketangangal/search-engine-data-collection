@@ -1,7 +1,7 @@
 import os
 
 database = os.environ["AWS_DATABASE_NAME"]
-table = os.environ['AWS_DATABASE_TABLE']
+table = os.environ["AWS_DATABASE_TABLE"]
 
 
 """ Mysql Setup Related queries  """
