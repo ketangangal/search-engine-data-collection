@@ -53,8 +53,10 @@ async def single_upload(label: str, file: UploadFile = None):
         response = s3.upload_to_s3(file.file, label)
         return {"filename": file.filename, "label": label, "S3-Response": response}
     else:
-        return {"ContentType": f"Content type should be Image/jpeg not {file.content_type}",
-                "LabelFound": status}
+        return {
+            "ContentType": f"Content type should be Image/jpeg not {file.content_type}",
+            "LabelFound": status,
+        }
 
 
 @app.get("/bulk_upload")
@@ -77,12 +79,22 @@ def bulk_upload(label: str, files: List[UploadFile] = File(...)):
                     final_response = response
                 else:
                     skipped.append(file.filename)
-            return {"label": label, 'skipped': skipped, "S3-Response": final_response, "LabelFound": status}
+            return {
+                "label": label,
+                "skipped": skipped,
+                "S3-Response": final_response,
+                "LabelFound": status,
+            }
         else:
-            return {"label": label, 'skipped': skipped, "S3-Response": final_response, "LabelFound": status}
+            return {
+                "label": label,
+                "skipped": skipped,
+                "S3-Response": final_response,
+                "LabelFound": status,
+            }
     except Exception as e:
         return {"ContentType": f"Content type should be Image/jpeg not {e}"}
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0', port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8080)

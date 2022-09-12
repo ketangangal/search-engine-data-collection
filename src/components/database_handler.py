@@ -22,9 +22,9 @@ class MysqlConnection:
         """
         try:
             self.mydb = mysql.connector.connect(
-                host=os.environ['AWS_DATABASE_HOST'],
-                user=os.environ['AWS_DATABASE_USERNAME'],
-                password=os.environ['AWS_DATABASE_PASSWORD']
+                host=os.environ["AWS_DATABASE_HOST"],
+                user=os.environ["AWS_DATABASE_USERNAME"],
+                password=os.environ["AWS_DATABASE_PASSWORD"],
             )
             return True
         except Exception as e:
