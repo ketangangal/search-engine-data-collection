@@ -1,8 +1,10 @@
-from src.components.queries import CREATE_TABLE, CREATE_DATABASE
-from src.Exception.exception import CustomException
-import mysql.connector
 import os
 import sys
+
+import mysql.connector
+
+from src.components.queries import CREATE_DATABASE, CREATE_TABLE
+from src.Exception.exception import CustomException
 
 
 class MysqlConnection:

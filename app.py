@@ -1,10 +1,12 @@
-from fastapi import FastAPI, File, UploadFile
-from src.components.queries import FETCH_LABELS, ADD_LABEL, database, table
-from fastapi.responses import JSONResponse
-from src.components.database_handler import MysqlConnection
-from src.components.s3_handler import S3Connection
 from typing import List
+
 import uvicorn
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
+
+from src.components.database_handler import MysqlConnection
+from src.components.queries import ADD_LABEL, FETCH_LABELS, database, table
+from src.components.s3_handler import S3Connection
 
 # Setup all the connection
 app = FastAPI(title="DataCollection-Server")
