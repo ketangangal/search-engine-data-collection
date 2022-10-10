@@ -1,5 +1,9 @@
 # Embedding based Image Search Engine DataCollection
-This Repository Is responsible for data collection which is required to train Embedding Based Image Search Engine.
+This Repository contains code for data collection which is required to train Embedding Based Image Search Engine.
+
+# Architecture
+![image](https://user-images.githubusercontent.com/40850370/194913612-69d32e6d-56b7-4b1b-a811-48c6c5b27f52.png)
+![image](https://user-images.githubusercontent.com/40850370/194917419-ca176a45-bafb-4346-9942-cd59f042f33b.png)
 
 ## Actions Workflow 
 1. On push checkout the code and create docker container on git-hub server.
