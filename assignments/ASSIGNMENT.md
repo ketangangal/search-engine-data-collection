@@ -7,7 +7,7 @@ Note:
 3. There should be minimum or very less downtime for new model update in prediction. !
 ```
 
-### TASK-2 Currently project implemented using pytorch you need shift it to tensorflow 2.X and shift approximate nearest neighbor algorithm Annoy to Faiss?
+### TASK-2 Currently project is implemented using pytorch you need shift it to tensorflow 2.X and shift approximate nearest neighbor algorithm from Annoy to Faiss?
 [Faiss Algorithm](https://github.com/facebookresearch/faiss)
 
 ### TASK-3  Shift CI-CD / CI-CD-CT workflow to circleci or Jenkins?
