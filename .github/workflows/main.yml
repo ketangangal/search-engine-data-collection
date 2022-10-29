@@ -54,7 +54,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
-          IMAGE_TAG: production
+          IMAGE_TAG: DataCollection
         run: |
           # Build a docker container and
           # push it to ECR so that it can
@@ -65,7 +65,7 @@ jobs:
 
   pull-and-start-app-on-prod:
     needs: build-and-push-ecr-image
-    name: Pull Image from ECR and Start App on EC2
+    name: Continuous Deployment
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -75,10 +75,19 @@ jobs:
         run: sudo docker login -u AWS -p $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{ secrets.AWS_ECR_LOGIN_URI }}
 
       - name: Pull App Image
-        run: sudo docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:production
+        run: sudo docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:DataCollection
 
       - name: Run Docker Image to serve users
-        run: sudo docker run -d -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} -e AWS_BUCKET_HEADER_URL=${{ secrets.AWS_BUCKET_HEADER_URL }} -e AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }} -e AWS_DATABASE_HOST=${{ secrets.AWS_DATABASE_HOST }} -e AWS_DATABASE_USERNAME=${{ secrets.AWS_DATABASE_USERNAME }} -e AWS_DATABASE_PASSWORD=${{ secrets.AWS_DATABASE_PASSWORD }} -e AWS_DATABASE_NAME=${{ secrets.AWS_DATABASE_NAME }} -e AWS_DATABASE_TABLE=${{ secrets.AWS_DATABASE_TABLE }} -p 8080:8080 ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:production
+        run: | 
+          sudo docker run -d \
+            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            -e AWS_BUCKET_HEADER_URL=${{ secrets.AWS_BUCKET_HEADER_URL }} \
+            -e AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }} \
+            -e DATABASE_NAME=${{ secrets.DATABASE_NAME }} \
+            -e ATLAS_CLUSTER_USERNAME=${{ secrets.ATLAS_CLUSTER_USERNAME }} \
+            -e ATLAS_CLUSTER_PASSWORD=${{ secrets.ATLAS_CLUSTER_PASSWORD }} \
+            -p 8080:8080 ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:DataCollection
 
       - name: Docker System Prune to Remove Old Images
         run: sudo docker system prune -f

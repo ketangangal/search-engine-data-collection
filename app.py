@@ -1,16 +1,18 @@
-from typing import List
-
-import uvicorn
+from src.components.queries import ADD_LABEL, FETCH_LABELS, database, table
+from src.components.database_handler import MongodbClient
+from src.components.s3_handler import S3Connection
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
+from typing import List
+import uvicorn
 
-from src.components.database_handler import MysqlConnection
-from src.components.queries import ADD_LABEL, FETCH_LABELS, database, table
-from src.components.s3_handler import S3Connection
+# from src.components.database_handler import MysqlConnection
+
 
 # Setup all the connection
+# mysql = MysqlConnection()
 app = FastAPI(title="DataCollection-Server")
-mysql = MysqlConnection()
+client = MongodbClient.client
 s3 = S3Connection()
 
 choices = {}
@@ -20,18 +22,14 @@ choices = {}
 @app.get("/fetch")
 def fetch_label():
     global choices
-    status, result = mysql.fetchall(FETCH_LABELS)
-    if status:
-        choices = {value[0]: True for key, value in enumerate(result)}
-        return {"Status": "Success", "S3-Response": choices}
-    else:
-        return {"Status": "Failed", "S3-Response": result}
+    result = client["labels"].find()
+    return {"Status": "Failed", "Response": result}
 
 
 # Label Post Api
 @app.post("/add_label/{label_name}")
 def add_label(label_name: str):
-    response = mysql.insert(ADD_LABEL.format(database, table, label_name))
+    response = client["labels"].insert(label_name)
     if response[0]:
         response = s3.add_label(label_name)
         return {"Status": "Success", "S3-Response": response}

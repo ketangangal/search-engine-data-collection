@@ -19,7 +19,6 @@ class S3Connection:
         )
         self.s3 = session.resource("s3")
         self.bucket = self.s3.Bucket(os.environ["AWS_BUCKET_NAME"])
-        self.header = os.environ["AWS_BUCKET_HEADER_URL"]
 
     def add_label(self, label: str) -> Dict:
         """
