@@ -23,6 +23,7 @@ def fetch_label():
         global choices
         result = mongo.database['labels'].find()
         documents = [document for document in result]
+        choices = documents[0]
         response = {"Status": "Success", "Response": str(documents[0])}
         return JSONResponse(content=response, status_code=200, media_type="application/json")
     except Exception as e:
