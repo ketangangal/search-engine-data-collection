@@ -23,7 +23,7 @@ def fetch_label():
         global choices
         result = mongo.database['labels'].find()
         documents = [document for document in result]
-        choices = documents[0]
+        choices = dict(documents[0])
         response = {"Status": "Success", "Response": str(documents[0])}
         return JSONResponse(content=response, status_code=200, media_type="application/json")
     except Exception as e:
@@ -54,14 +54,14 @@ def single_upload():
 # Image Single Upload Api
 @app.post("/single_upload/")
 async def single_upload(label: str, file: UploadFile = None):
-    status = choices.get(label, False)
-    if file.content_type == "image/jpeg" and status:
+    label = choices.get(label, False)
+    if file.content_type == "image/jpeg" and label != False:
         response = s3.upload_to_s3(file.file, label)
         return {"filename": file.filename, "label": label, "S3-Response": response}
     else:
         return {
             "ContentType": f"Content type should be Image/jpeg not {file.content_type}",
-            "LabelFound": status,
+            "LabelFound": label,
         }
 
 
@@ -77,8 +77,8 @@ def bulk_upload(label: str, files: List[UploadFile] = File(...)):
     try:
         skipped = []
         final_response = None
-        status = choices.get(label, False)
-        if status:
+        label = choices.get(label, False)
+        if label:
             for file in files:
                 if file.content_type == "image/jpeg":
                     response = s3.upload_to_s3(file.file, label)
@@ -89,14 +89,14 @@ def bulk_upload(label: str, files: List[UploadFile] = File(...)):
                 "label": label,
                 "skipped": skipped,
                 "S3-Response": final_response,
-                "LabelFound": status,
+                "LabelFound": label,
             }
         else:
             return {
                 "label": label,
                 "skipped": skipped,
                 "S3-Response": final_response,
-                "LabelFound": status,
+                "LabelFound": label,
             }
     except Exception as e:
         return {"ContentType": f"Content type should be Image/jpeg not {e}"}
