@@ -1,4 +1,5 @@
-from src.components.queries import ADD_LABEL, FETCH_LABELS, database, table
+# from src.components.queries import ADD_LABEL, FETCH_LABELS, database, table
+# from src.components.database_handler import MysqlConnection
 from src.components.database_handler import MongodbClient
 from src.components.s3_handler import S3Connection
 from fastapi import FastAPI, File, UploadFile
@@ -6,13 +7,10 @@ from fastapi.responses import JSONResponse
 from typing import List
 import uvicorn
 
-# from src.components.database_handler import MysqlConnection
-
-
 # Setup all the connection
 # mysql = MysqlConnection()
 app = FastAPI(title="DataCollection-Server")
-client = MongodbClient.client
+mongo = MongodbClient()
 s3 = S3Connection()
 
 choices = {}
@@ -21,16 +19,25 @@ choices = {}
 # Fetch All Labels
 @app.get("/fetch")
 def fetch_label():
-    global choices
-    result = client["labels"].find()
-    return {"Status": "Failed", "Response": result}
+    try:
+        global choices
+        result = mongo.database['labels'].find()
+        documents = [document for document in result]
+        response = {"Status": "Success", "Response": str(documents[0])}
+        return JSONResponse(content=response, status_code=200, media_type="application/json")
+    except Exception as e:
+        raise e
 
 
 # Label Post Api
 @app.post("/add_label/{label_name}")
 def add_label(label_name: str):
-    response = client["labels"].insert(label_name)
-    if response[0]:
+    result = mongo.database['labels'].find()
+    documents = [document for document in result]
+    last_value = list(map(int, list(documents[0].keys())[1:]))[-1]
+    response = mongo.database['labels'].update_one({"_id": documents[0]["_id"]},
+                                                   {"$set": {str(last_value + 1): label_name}})
+    if response.modified_count == 1:
         response = s3.add_label(label_name)
         return {"Status": "Success", "S3-Response": response}
     else:

@@ -1,9 +1,6 @@
 import os
 import requests
 import base64
-from io import BytesIO
-import io
-from PIL import Image
 from from_root import from_root
 from tqdm import tqdm
 
