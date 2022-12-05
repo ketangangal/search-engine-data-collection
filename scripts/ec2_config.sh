@@ -1,13 +1,17 @@
 ## Docker install In ubuntu 22.04  lts
 sudo apt-get update
-sudo apt-get upgrade
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
+sudo apt-get upgrade -y
+
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
 apt-cache policy docker-ce
-sudo apt install docker-ce
+sudo apt install docker-ce -y
 sudo systemctl status docker
+
+sudo usermod -aG docker ubuntu
+newgrp docker
 
 ## Aws cli installation
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"

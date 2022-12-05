@@ -6,7 +6,7 @@ import boto3
 import boto3.session
 
 from src.components.utils import image_unique_name
-from src.Exception.exception import CustomException
+from src.exception import CustomException
 
 
 class S3Connection:
