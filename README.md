@@ -30,7 +30,13 @@ This Repository contains code for data collection which is required to train Emb
 - S3 Bucket 
 - Mongo Database
 - Elastic Container Registry
-- Elastic Compute Cloud 
+- Elastic Compute Cloud
+
+## Steps
+1. Create data folder 
+2. Put archive.zip in data folder 
+3. run s3 setup and mongo setup
+4. Done
 
 ## To Replicate [ Requirements ]
 ```yaml
@@ -64,8 +70,6 @@ export ECR_REPOSITORY_NAME=<name>
 
 export DATABASE_NAME=<name>
 ```
-
-
 
 ## Cost Involved
 - For s3 bucket    :  Since we are using S3 Standard `$0.023 per GB`
