@@ -1,14 +1,11 @@
-# from src.components.queries import ADD_LABEL, FETCH_LABELS, database, table
-# from src.components.database_handler import MysqlConnection
-from src.components.database_handler import MongodbClient
-from src.components.s3_handler import S3Connection
+from src.utils.database_handler import MongodbClient
+from src.utils.s3_handler import S3Connection
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
-from typing import List
+from typing import List, Union, Any
 import uvicorn
 
-# Setup all the connection
-# mysql = MysqlConnection()
+
 app = FastAPI(title="DataCollection-Server")
 mongo = MongodbClient()
 s3 = S3Connection()
@@ -77,7 +74,7 @@ def bulk_upload(label: str, files: List[UploadFile] = File(...)):
     try:
         skipped = []
         final_response = None
-        label = choices.get(label, False)
+        label: Union[bool, Any] = choices.get(label, False)
         if label:
             for file in files:
                 if file.content_type == "image/jpeg":

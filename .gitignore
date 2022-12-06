@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-caltech-101
+data/caltech-101
+data/archive.zip
 *.py[cod]
 *$py.class
 .idea

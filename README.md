@@ -28,9 +28,44 @@ This Repository contains code for data collection which is required to train Emb
 
 ## Infrastructure Details
 - S3 Bucket 
-- Mysql Database
+- Mongo Database
 - Elastic Container Registry
 - Elastic Compute Cloud 
+
+## To Replicate [ Requirements ]
+```yaml
+aws_cli:
+  download: True
+  configure: True
+  
+S3_Configurations:
+  create_bucket: <bucket-name>
+  region: <bucket-region>
+  access: public-access [ To all the images ]
+
+Mongo_configuration:
+  mongo_url: <url-with-id-pass>
+
+```
+## Env variable
+
+```bash
+
+export ATLAS_CLUSTER_USERNAME=<username>
+export ATLAS_CLUSTER_PASSWORD=<password>
+
+export AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>
+export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
+export AWS_REGION=<region>
+
+export AWS_BUCKET_NAME=<AWS_BUCKET_NAME>
+export AWS_ECR_LOGIN_URI=<AWS_ECR_LOGIN_URI>
+export ECR_REPOSITORY_NAME=<name>
+
+export DATABASE_NAME=<name>
+```
+
+
 
 ## Cost Involved
 - For s3 bucket    :  Since we are using S3 Standard `$0.023 per GB`

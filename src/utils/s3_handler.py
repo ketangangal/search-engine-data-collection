@@ -1,11 +1,10 @@
-import os
-import sys
-from typing import Dict
-
+import os, sys
 import boto3
 import boto3.session
 
-from src.components.utils import image_unique_name
+from typing import Dict
+
+from src.utils.utils import image_unique_name
 from src.exception import CustomException
 
 
