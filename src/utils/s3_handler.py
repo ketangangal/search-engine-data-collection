@@ -9,7 +9,7 @@ from src.exception import CustomException
 
 
 class S3Connection:
-    """ Data Class for reverse image search engine."""
+    """Data Class for reverse image search engine."""
 
     def __init__(self):
         session = boto3.Session(
@@ -22,7 +22,7 @@ class S3Connection:
     def add_label(self, label: str) -> Dict:
         """
          This Function is responsible for adding label in s3 bucket.
-         :param label: label Name
+         param label: label Name
          :return: json Response of state message (success or failure)
          """
         try:
@@ -37,7 +37,7 @@ class S3Connection:
         """
         This Function is responsible for uploading images in the predefined
         location in the s3 bucket.
-        :param label: label Name
+        param label: label Name
         :param image_path: Path to the image to upload
         :return: json Response of state message (success or failure)
         """
