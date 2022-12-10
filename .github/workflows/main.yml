@@ -71,7 +71,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: AWS ECR Login
-        run: docker login -u AWS -p $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{ secrets.AWS_ECR_LOGIN_URI }}
+        run: sudo docker login -u AWS -p $(aws ecr get-login-password --region ${{ secrets.AWS_REGION }}) ${{ secrets.AWS_ECR_LOGIN_URI }}
 
       - name: Pull App Image
         run: sudo docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:DataCollection
