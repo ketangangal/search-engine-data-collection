@@ -40,7 +40,7 @@ class DataStore:
     def sync_data(self):
         try:
             print("\n====================== Starting Data sync ==============================\n")
-            os.system(f"aws s3 sync { self.images } s3://ineuron-test/images/ ")
+            os.system(f"aws s3 sync { self.images } s3://image-search-data/images/ ")
             print("\n====================== Data sync Completed ==========================\n")
 
         except Exception as e:
